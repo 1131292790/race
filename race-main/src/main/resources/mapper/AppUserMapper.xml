@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.fuchuang.mapper.AppUserMapper" >
+  <resultMap id="BaseResultMap" type="com.fuchuang.domain.AppUser" >
+    <id column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="nick_Name" property="nickName" jdbcType="VARCHAR" />
+    <result column="phone_Num" property="phoneNum" jdbcType="VARCHAR" />
+    <result column="img_Url" property="imgUrl" jdbcType="VARCHAR" />
+    <result column="city_Name" property="cityName" jdbcType="VARCHAR" />
+    <result column="pass_Word" property="passWord" jdbcType="VARCHAR" />
+    <result column="carbon_Coin" property="carbonCoin" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    user_id, nick_Name, phone_Num, img_Url, city_Name, pass_Word, carbon_Coin
+  </sql>
+  <select id="selectByIdPwd" resultMap="BaseResultMap">
+    select * from appuser
+    where user_id=#{userId} and
+    pass_Word = #{userPwd}
+  </select>
+  <select id="selectByCC" resultMap="BaseResultMap">
+    select *
+    from appuser where carbon_Coin between #{lower} and #{upper};
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from appuser
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from appuser
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="com.fuchuang.domain.AppUser" >
+    insert into appuser (user_id, nick_Name, phone_Num, 
+      img_Url, city_Name, pass_Word, 
+      carbon_Coin)
+    values (#{userId,jdbcType=VARCHAR}, #{nickName,jdbcType=VARCHAR}, #{phoneNum,jdbcType=VARCHAR}, 
+      #{imgUrl,jdbcType=VARCHAR}, #{cityName,jdbcType=VARCHAR}, #{passWord,jdbcType=VARCHAR}, 
+      #{carbonCoin,jdbcType=INTEGER})
+  </insert>
+  <insert id="insertSelective" parameterType="com.fuchuang.domain.AppUser" >
+    insert into appuser
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if com.test="userId != null" >
+        user_id,
+      </if>
+      <if com.test="nickName != null" >
+        nick_Name,
+      </if>
+      <if com.test="phoneNum != null" >
+        phone_Num,
+      </if>
+      <if com.test="imgUrl != null" >
+        img_Url,
+      </if>
+      <if com.test="cityName != null" >
+        city_Name,
+      </if>
+      <if com.test="passWord != null" >
+        pass_Word,
+      </if>
+      <if com.test="carbonCoin != null" >
+        carbon_Coin,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if com.test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if com.test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if com.test="phoneNum != null" >
+        #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if com.test="imgUrl != null" >
+        #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if com.test="cityName != null" >
+        #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if com.test="passWord != null" >
+        #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if com.test="carbonCoin != null" >
+        #{carbonCoin,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="com.fuchuang.domain.AppUser" >
+    update appuser
+    <set >
+      <if com.test="nickName != null" >
+        nick_Name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if com.test="phoneNum != null" >
+        phone_Num = #{phoneNum,jdbcType=VARCHAR},
+      </if>
+      <if com.test="imgUrl != null" >
+        img_Url = #{imgUrl,jdbcType=VARCHAR},
+      </if>
+      <if com.test="cityName != null" >
+        city_Name = #{cityName,jdbcType=VARCHAR},
+      </if>
+      <if com.test="passWord != null" >
+        pass_Word = #{passWord,jdbcType=VARCHAR},
+      </if>
+      <if com.test="carbonCoin != null" >
+        carbon_Coin = #{carbonCoin,jdbcType=INTEGER},
+      </if>
+    </set>
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.fuchuang.domain.AppUser" >
+    update appuser
+    set nick_Name = #{nickName,jdbcType=VARCHAR},
+      phone_Num = #{phoneNum,jdbcType=VARCHAR},
+      img_Url = #{imgUrl,jdbcType=VARCHAR},
+      city_Name = #{cityName,jdbcType=VARCHAR},
+      pass_Word = #{passWord,jdbcType=VARCHAR},
+      carbon_Coin = #{carbonCoin,jdbcType=INTEGER}
+    where user_id = #{userId,jdbcType=VARCHAR}
+  </update>
+  <update id="updateUserPwd">
+    update appuser
+    set pass_Word = #{userPwd}
+    where user_id = #{userId}
+  </update>
+</mapper>
